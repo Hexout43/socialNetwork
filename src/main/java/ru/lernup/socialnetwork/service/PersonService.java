@@ -1,20 +1,13 @@
 package ru.lernup.socialnetwork.service;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.lernup.socialnetwork.Db.Entity.FilePerson;
 import ru.lernup.socialnetwork.Db.Entity.Person;
-import ru.lernup.socialnetwork.Db.Entity.User;
 import ru.lernup.socialnetwork.Db.Repository.PersonRepository;
-import ru.lernup.socialnetwork.Db.Repository.UserRepository;
 import ru.lernup.socialnetwork.mapper.PersonMapper;
 import ru.lernup.socialnetwork.view.PersonView;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 

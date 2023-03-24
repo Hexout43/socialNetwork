@@ -34,7 +34,7 @@ public class PostMapper {
         postView.setId(post.getId());
         postView.setBody(post.getBody());
         postView.setHeader(post.getHeader());
-        postView.setPerson(post.getPerson().getUser().getId());
+        postView.setPerson(post.getPerson().getId());
         if (post.getComments()!=null) {
             postView.setComments(post.getComments().stream().map(Comment::getText)
                     .collect(Collectors.toList()));

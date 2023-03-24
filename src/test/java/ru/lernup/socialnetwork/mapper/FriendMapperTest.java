@@ -7,13 +7,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.lernup.socialnetwork.Db.Entity.Person;
-import ru.lernup.socialnetwork.Db.Repository.PersonRepository;
 import ru.lernup.socialnetwork.service.PersonService;
 import ru.lernup.socialnetwork.view.PersonView;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
@@ -29,11 +26,11 @@ class FriendMapperTest {
         Person person = new Person();
         person.setId(1L);
         PersonView person1 = new PersonView();
-        person1.setId(1L);
+        person1.setIdUser(1L);
         PersonView person2 = new PersonView();
-        person2.setId(2L);
+        person2.setIdUser(2L);
         PersonView person3 = new PersonView();
-        person3.setId(3L);
+        person3.setIdUser(3L);
         person.setFriends("1 2 3");
         Mockito.doReturn(person1).when(this.personService).getPersonById(1L);
         Mockito.doReturn(person2).when(this.personService).getPersonById(2L);

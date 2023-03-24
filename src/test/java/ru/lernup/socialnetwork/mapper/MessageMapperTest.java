@@ -77,9 +77,9 @@ class MessageMapperTest {
         //when
         var messageViews = messageMapper.mappedToView(message);
         //then
-        assertEquals(messageViews.getIdAuthor(),message.getIdAuthor().getUser().getId());
+        assertEquals(messageViews.getIdAuthor(),message.getIdAuthor().getId());
         assertEquals(messageViews.getText(),message.getText());
-        assertEquals(messageViews.getIdRecipient(),message.getIdRecipient().getUser().getId());
+        assertEquals(messageViews.getIdRecipient(),message.getIdRecipient().getId());
         assertEquals(messageViews.getDate(),date.toString());
     }
 

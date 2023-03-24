@@ -3,9 +3,8 @@ package ru.lernup.socialnetwork.controllers;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.lernup.socialnetwork.Db.Repository.PersonRepository;
-import ru.lernup.socialnetwork.Db.Repository.PostRepository;
 import ru.lernup.socialnetwork.service.PostService;
+import ru.lernup.socialnetwork.service.UserService;
 import ru.lernup.socialnetwork.view.PostView;
 
 import java.util.List;
@@ -14,17 +13,15 @@ import java.util.List;
 @RequestMapping
 public class PostController {
     private final PostService postService;
+    private final UserService userService;
 
-    private final PersonRepository personRepository;
-    private final PostRepository postRepository;
 
-    public PostController(PostService postService,
 
-                          PersonRepository personRepository, PostRepository postRepository) {
+    public PostController(PostService postService, UserService userService) {
         this.postService = postService;
 
-        this.personRepository = personRepository;
-        this.postRepository = postRepository;
+
+        this.userService = userService;
     }
     @GetMapping("/posts/{id}")
     public List<PostView> getPostsByUser(@PathVariable("id") Long id){
@@ -42,21 +39,31 @@ public class PostController {
         return postService.getPost(id);
     }
     @PostMapping("/post")
-    public void  createPost(@RequestBody PostView postView){
+    @PreAuthorize("#login == authentication.name")
+    public void  createPost(@RequestParam("login")String login
+            ,@RequestBody PostView postView){
 
         postService.addPost(postView);
     }
-    @PostAuthorize("#postRepository.getReferenceById(postView.person).person.user.login==authentication.name")
+    @PreAuthorize("#login==authentication.name")
     @DeleteMapping("/post/{id}")
-    public  void  deletePost(@PathVariable("id") Long id,@RequestBody PostView postView){
+    public  void  deletePost(@RequestParam("login")String login,
+                             @PathVariable("id")Long id,@RequestBody PostView postView){
+        Long idAuthor = userService.getUserByLogin(login).getPerson().getId();
+        if (postView.getPerson().equals(idAuthor)){
         postView.setId(id);
-        postService.deletePost(id);
+        postService.deletePost(id);}
     }
-    @PutMapping("post/{id}")
+    @PutMapping("/post/{id}")
+    @PreAuthorize("#login==authentication.name")
     public  void  updatePost(@RequestBody PostView postView,
-                             @PathVariable("id") Long id){
+                             @PathVariable("id")Long id,
+                             @RequestParam("login")String login){
+        Long idAuthor = userService.getUserByLogin(login).getPerson().getId();
+        if (postView.getPerson().equals(idAuthor)){
         postView.setId(id);
         postService.updatePost(postView);
+        }
     }
     @GetMapping("/posts/search")
     public  List<PostView> searchPost(@RequestParam(value = "header",required = false)String header ,

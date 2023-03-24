@@ -1,6 +1,5 @@
 package ru.lernup.socialnetwork.mapper;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,7 +29,7 @@ class PersonMapperTest {
     user.setId(1L);
     Mockito.doReturn(user).when(this.userRepository).getReferenceById(1L);
     PersonView personView = new PersonView();
-    personView.setId(1L);
+    personView.setIdUser(1L);
     personView.setName("123");
     personView.setMail("1234");
     personView.setSurname("Mike");
@@ -39,7 +38,7 @@ class PersonMapperTest {
     personMapper.mappedFromView(personView);
     //then
     assertNotNull(person.getUser());
-    assertEquals(personView.getId(),person.getUser().getId());
+    assertEquals(personView.getIdUser(),person.getUser().getId());
     assertNotNull(person);
     assertEquals(person.getBirthdate(),personView.getBirthDate());
     assertEquals(person.getSurname(),personView.getSurname());
@@ -62,7 +61,7 @@ class PersonMapperTest {
     //when
     var personView = personMapper.mappedToView(person);
     //then
-    assertEquals(personView.getId(),person.getUser().getId());
+    assertEquals(personView.getIdUser(),person.getUser().getId());
     assertEquals(personView.getName(),person.getName());
     assertEquals(personView.getSurname(),person.getSurname());
     assertEquals(personView.getBriefInformation(),person.getBriefInformation());

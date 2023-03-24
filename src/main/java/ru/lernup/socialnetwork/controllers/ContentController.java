@@ -1,9 +1,11 @@
 package ru.lernup.socialnetwork.controllers;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.lernup.socialnetwork.service.ContentService;
+import ru.lernup.socialnetwork.service.UserService;
 
 import java.io.*;
 
@@ -11,15 +13,20 @@ import java.io.*;
 @RequestMapping("/file")
 public class ContentController {
     private final ContentService contentService;
+    private final UserService userService;
 
-    public ContentController(ContentService contentService) {
+    public ContentController(ContentService contentService,
+                             UserService userService) {
         this.contentService = contentService;
+        this.userService = userService;
     }
 
-    @PostMapping("/{id_user}")
+    @PostMapping
+    @PreAuthorize("#login==authentication.name")
     public void addImage(@RequestParam("file")MultipartFile file,
-                         @PathVariable("id_user") Long idUser) throws IOException {
-       contentService.addFile(file,idUser);
+                         @RequestParam("login")String login) throws IOException {
+        Long id = userService.getUserByLogin(login).getPerson().getId();
+       contentService.addFile(file,id);
     }
     @GetMapping(
             value = "/img",

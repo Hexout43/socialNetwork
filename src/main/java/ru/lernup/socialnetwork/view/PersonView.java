@@ -8,6 +8,8 @@ import java.util.List;
 @Data
 public class PersonView {
     @JsonProperty
+    private Long id;
+    @JsonProperty
     private String name;
     @JsonProperty
     private String surname;
@@ -16,7 +18,7 @@ public class PersonView {
     @JsonProperty
     private String briefInformation;
     @JsonProperty
-    private Long id;
+    private Long idUser;
     @JsonProperty
     private String mail;
     @JsonProperty

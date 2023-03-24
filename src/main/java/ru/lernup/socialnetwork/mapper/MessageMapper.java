@@ -29,8 +29,8 @@ public class MessageMapper {
         MessageView messageView = new MessageView();
         messageView.setDate(message.getDate());
         messageView.setText(message.getText());
-        messageView.setIdAuthor(message.getIdAuthor().getUser().getId());
-        messageView.setIdRecipient(message.getIdRecipient().getUser().getId());
+        messageView.setIdAuthor(message.getIdAuthor().getId());
+        messageView.setIdRecipient(message.getIdRecipient().getId());
         return messageView;
     }
 }
